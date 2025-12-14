@@ -1,5 +1,5 @@
 <?php
-   session_start;
+   session_start();
    date_default_timezone_set('Asia/Seoul');
 
    include __DIR__ . "/../includes/db.php";
@@ -24,9 +24,7 @@
          $this->db = $db;
          //exit;
       }
-	function generateSessionToken() {  # Generate a brand new (CSRF) token
 
-	}
 	
 	
       function login($username,$password)
@@ -102,16 +100,16 @@
 		 
 		
 
-		 } else {
+	} else {
+    sleep( rand( 2, 4 ) );
 
-         sleep( rand( 2, 4 ) );
-         $html .= "<pre><br />Username and/or password incorrect.<br /><br/>Alternative, the account has been locked because of too many failed logins.<br />If this is the case, <em>please try again in {$lockout_time} minutes</em>.</pre>";
+    $data = $this->db->prepare( 'UPDATE users SET failed_login = (failed_login + 1) WHERE username = (:username) LIMIT 1;' );
+    $data->bindParam( ':username', $username, PDO::PARAM_STR );
+    $data->execute();
 
-         $data = $this->db->prepare( 'UPDATE users SET failed_login = (failed_login + 1) WHERE username = (:username) LIMIT 1;' );
-         $data->bindParam( ':username', $user, PDO::PARAM_STR );
-         $data->execute();
-      }
-
+    echo "<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>";
+    echo "<script>location.href='/auth/login.php';</script>";
+}
       $data = $this->db->prepare( 'UPDATE users SET last_login = now() WHERE username = (:username) LIMIT 1;' );
       $data->bindParam( ':username', $username, PDO::PARAM_STR );
       $data->execute();
@@ -335,7 +333,7 @@
          
        
          #step2
-         #HTTP_REFERE : 이전 페이지 (HTTP_REFERER : http://kelly23.kr/auth/mypage.php)
+         #HTTP_REFERE : 이전 페이지 (HTTP_REFERER : http://metaedunet.kr/auth/mypage.php)
          #stripos()함수 : PHP 함수로, 문자열 안에서 부분 문자열을 대소문자 구분 없이 찾는 함수
          # !== false : 있다면
          if( stripos( $_SERVER[ 'HTTP_REFERER' ] ,$_SERVER[ 'SERVER_NAME' ]) !== false ) {

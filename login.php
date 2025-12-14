@@ -14,7 +14,7 @@
 
     <div class="mb-3">
       <label for="password">비밀번호</label>
-      <input type="text" class="form-control" id="pasword" placeholder="비밀번호" name="password">
+      <input type="text" class="form-control" id="password" placeholder="비밀번호" name="password">
     </div>
 
     <div class="form-check mb-3">
@@ -24,7 +24,6 @@
     </div>
     <button type="submit" class="btn btn-primary" name="submit">로그인</button>
   </form>
-	네이버 간편 로그인 
 </div>
 
 <?php
