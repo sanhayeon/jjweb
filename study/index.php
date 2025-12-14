@@ -204,4 +204,5 @@ foreach ($currentFiles as $file):
     });
 </script>
 
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
